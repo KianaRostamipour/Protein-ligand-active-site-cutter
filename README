@@ -1,0 +1,29 @@
+Create a Directory for Each Ligand:
+Create a directory named {dir_name} for each ligand.
+
+Place PDB Files:
+In each {dir_name} directory, store all the pdb_{dir_name} files. These files hold the data specific to that ligand.
+
+Add the Active Site Isolation Script:
+Include the as_cut_Pipeline.sh script in each {dir_name} directory. This script is designed to isolate the active site, essential for focused analysis.
+
+Execute the Active Site Script:
+Run the as_cut_Pipeline.sh within each {dir_name} directory to extract the active site components from the pdb files.
+
+Centralize the Organization Script:
+Ensure that the organize.py script is located in the parent directory that encompasses all the {dir_name} folders.
+
+Run the Organization Script:
+From the parent directory, execute organize.py. This script will organize the active site data previously extracted, preparing it for xTB calculations.
+
+Review the Final Output:
+After running the organize.py script, the organized data will be ready for xTB calculations and will be referred to as xtb_PDB_ID.
+
+Directory Structure Example
+Here’s how your directory structure should look for clarity:
+
+Parent Directory
+  organize.py (Located here to manage data across all ligand directories)
+  {dir_name}
+    pdb_{dir_name} (Contains all pdb files for this ligand)
+    as_cut_Pipeline.sh (Script to isolate the active site)

@@ -1,0 +1,54 @@
+#!/usr/bin/expect -f
+
+set gmx_path "path to gmx"
+set pdb_file "protein.pdb"
+set output_file "neutral.pdb"
+set force_field "15" 
+set water_model "8"   
+puts "Starting conversion: $pdb_file"
+
+spawn $gmx_path pdb2gmx -f $pdb_file -ignh -o $output_file -lys yes -glu yes -his yes -arg yes -asp yes -ter yes
+
+expect {
+    "Select the Force Field:" {
+        send -- "$force_field\r"
+        exp_continue
+    }
+    "Select the Water Model:" {
+        send -- "$water_model\r"
+        exp_continue
+    }
+    -re {Which .* type do you want for residue} {
+        set buffer $expect_out(buffer)
+        if { [regexp {Which ARGININE type do you want for residue} $buffer] } {
+            send -- "0\r"
+            after 500
+            send_user "Selected ARGININE type 0\n"
+        } elseif { [regexp {Which ASPARTIC ACID type do you want for residue} $buffer] } {
+            send -- "1\r"
+            after 500
+            send_user "Selected ASPARTIC ACID type 1\n"
+        } elseif { [regexp {Which HIS.* type do you want for residue} $buffer] } {
+            send -- "0\r"
+        } elseif { [regexp {Which LYS.* type do you want for residue} $buffer] } {
+            send -- "0\r"
+        } elseif { [regexp {Which GLU.* type do you want for residue} $buffer] } {
+            send -- "1\r"
+        } else {
+            send_user "Encountered an unexpected prompt.\n"
+            exit 1
+        }
+        exp_continue
+    }
+    -re {Select start terminus type for.*} {
+        send -- "2\r"
+        exp_continue
+    }
+    -re {Select end terminus type for.*} {
+        send -- "3\r"
+        exp_continue
+    }
+}
+
+exit 0
+
