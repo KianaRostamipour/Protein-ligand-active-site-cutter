@@ -17,7 +17,7 @@ Run the Organization Script:
 From the parent directory, execute organize.py. This script will organize the active site data previously extracted, preparing it for xTB calculations.
 
 Review the Final Output:
-After running the organize.py script, the organized data will be ready for xTB calculations and will be referred to as xtb_PDB_ID.
+After running the organize.py script, the organized data will be ready for any calculations and will be referred to as cal_PDB_ID.
 
 Directory Structure Example
 Here’s how your directory structure should look for clarity:
